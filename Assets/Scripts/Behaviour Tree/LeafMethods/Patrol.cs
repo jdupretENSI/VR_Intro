@@ -11,7 +11,7 @@ public class Patrol : NodeLeaf
         // 1. Get the key for the data you need
         BlackboardKey waypointsKey = _blackboard.GetOrRegisterKey("Waypoints");
         BlackboardKey lastWaypointKey = _blackboard.GetOrRegisterKey("LastWaypoint");
-        BlackboardKey sphereKey = _blackboard.GetOrRegisterKey("Sphere");
+        BlackboardKey enemyKey = _blackboard.GetOrRegisterKey("Enemy");
         BlackboardKey movingKey = _blackboard.GetOrRegisterKey("Moving");
         Transform currentWaypoint;
 
@@ -25,7 +25,7 @@ public class Patrol : NodeLeaf
         
         if (!moving)
         {
-            // Pick a random waypoint
+            // Get next waypoint
             int waypointIndex = waypoints.FindIndex(waypoint => waypoint == lastWaypoint);
             if (waypointIndex + 1 >= waypoints.Count) waypointIndex = -1;
             
@@ -33,24 +33,25 @@ public class Patrol : NodeLeaf
             
             _blackboard.SetValue(movingKey, true);
             _blackboard.SetValue(lastWaypointKey, currentWaypoint);
-            Debug.Log($"Patrolling to waypoint: {currentWaypoint.position}");
         }
         else
         {
             currentWaypoint = lastWaypoint;
         }
         
-        if (!_blackboard.TryGetValue(sphereKey, out Transform sphereTransform)) return NodeReturnType.Failure;
+        if (!_blackboard.TryGetValue(enemyKey, out GameObject enemy)) return NodeReturnType.Failure;
         
-        // Move sphere towards waypoint
-        sphereTransform.position = Vector3.MoveTowards(
-            sphereTransform.position, 
+        // Move Enemy towards waypoint
+        enemy.transform.position = Vector3.MoveTowards(
+            enemy.transform.position, 
             currentWaypoint.position, 
-            Time.deltaTime * 5f
+            Time.deltaTime * 1f
         );
+        
+        enemy.transform.LookAt(currentWaypoint);
 
         // Check if reached waypoint
-        if (!(Vector3.Distance(sphereTransform.position, currentWaypoint.position) < 0.1f)) 
+        if (!(Vector3.Distance(enemy.transform.position, currentWaypoint.position) < 0.1f)) 
             return NodeReturnType.Running;
         
         _blackboard.SetValue(movingKey, false);
