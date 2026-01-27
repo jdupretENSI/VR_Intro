@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// These Nodes Act as Intermediaries in the Tree

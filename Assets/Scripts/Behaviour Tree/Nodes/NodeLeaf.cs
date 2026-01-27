@@ -1,4 +1,6 @@
-namespace Nodes
+using UnityEngine;
+
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// There are 2 types of leaves
@@ -8,12 +10,14 @@ namespace Nodes
     /// </summary>
     public abstract class NodeLeaf : NodeBase
     {
-        private NodeReturnType _returnType;
-        protected Blackboard _blackboard;
 
-        protected NodeLeaf(Blackboard blackboard)
+        protected Blackboard.Blackboard _blackboard;
+        protected GameObject _gameObject;
+
+        protected NodeLeaf(Blackboard.Blackboard blackboard, GameObject  gameObject)
         {
             _blackboard = blackboard;
+            _gameObject = gameObject;
         }
     }
 }

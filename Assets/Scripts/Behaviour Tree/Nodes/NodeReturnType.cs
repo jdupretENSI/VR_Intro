@@ -1,4 +1,4 @@
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// 3 Return types of the tree

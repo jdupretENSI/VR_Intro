@@ -1,4 +1,4 @@
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// Sequence Node are like AND Gates, meaning all the child nodes of this one MUST return success for it to return

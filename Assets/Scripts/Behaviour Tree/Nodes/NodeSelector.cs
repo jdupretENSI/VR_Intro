@@ -1,4 +1,4 @@
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// Selector nodes act as OR Gates, so as long as 1 of its children returns true then it will as well

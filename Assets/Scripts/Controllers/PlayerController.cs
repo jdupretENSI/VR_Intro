@@ -1,18 +1,17 @@
+using Behaviour_Tree.Blackboard;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace Controllers
 {
-    
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class PlayerController : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private GameObject _player;
+    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnEnable()
+        {
+            BlackboardKey playerKey = EnemyController.Blackboard.GetOrRegisterKey("Player");
+            EnemyController.Blackboard.SetValue(playerKey, _player);
+        }
     }
 }

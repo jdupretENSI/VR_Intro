@@ -1,4 +1,4 @@
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// The root just exits as a Reference to the tree

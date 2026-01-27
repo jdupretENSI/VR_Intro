@@ -1,80 +1,109 @@
 using System.Collections.Generic;
+using Behaviour_Tree.Blackboard;
 using Behaviour_Tree.LeafMethods;
-using Nodes;
+using Behaviour_Tree.Nodes;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+namespace Controllers
 {
-    private NodeRoot _root;
-
-    [Header("Visibility Cone")] 
-    [SerializeField]
-    public float _radius;
-    [Range(0, 360)]
-    [SerializeField]
-    public float _angle;
-    [SerializeField] private LayerMask _targetMask;
-    [SerializeField] private LayerMask _obstructionMask;
-    [SerializeField] private GameObject _enemy;
-    
-    private readonly List<Transform> _waypoints = new();
-    
-    private readonly Blackboard _blackboard = new();
-
-    private void OnEnable()
+    public class EnemyController : MonoBehaviour
     {
-        // Patrol
-        BlackboardKey movementKey =  _blackboard.GetOrRegisterKey("Moving");
-        _blackboard.SetValue(movementKey, false);
+        private NodeRoot _root;
 
-        foreach (GameObject waypoint in GameObject.FindGameObjectsWithTag("Waypoint"))
+        [Header("Visibility Cone")] 
+        [SerializeField]
+        public float _radius;
+        [Range(0, 360)]
+        [SerializeField]
+        public float _angle;
+        [SerializeField] private LayerMask _targetMask;
+        [SerializeField] private LayerMask _obstructionMask;
+    
+        private readonly List<Transform> _waypoints = new();
+    
+        public static Blackboard Blackboard = new();
+
+        private void OnEnable()
         {
-            _waypoints.Add(waypoint.transform);
+            // Patrol
+            BlackboardKey movementKey =  Blackboard.GetOrRegisterKey("Moving");
+            Blackboard.SetValue(movementKey, false);
+
+            foreach (GameObject waypoint in GameObject.FindGameObjectsWithTag("Waypoint"))
+            {
+                _waypoints.Add(waypoint.transform);
+            }
+            BlackboardKey waypointsKey = Blackboard.GetOrRegisterKey("Waypoints");
+            Blackboard.SetValue(waypointsKey, _waypoints);
+        
+            // FOV
+            BlackboardKey radiusKey = Blackboard.GetOrRegisterKey("Radius");
+            BlackboardKey angleKey = Blackboard.GetOrRegisterKey("Angle");
+            BlackboardKey targetMaskKey = Blackboard.GetOrRegisterKey("TargetMask");
+            BlackboardKey obstructionMaskKey = Blackboard.GetOrRegisterKey("Obstruction Mask");
+        
+            Blackboard.SetValue(radiusKey, _radius);
+            Blackboard.SetValue(angleKey, _angle);
+            Blackboard.SetValue(targetMaskKey, _targetMask);
+            Blackboard.SetValue(obstructionMaskKey, _obstructionMask);
         }
-        BlackboardKey waypointsKey = _blackboard.GetOrRegisterKey("Waypoints");
-        _blackboard.SetValue(waypointsKey, _waypoints);
+
+        private void Start()
+        {
+            // Add first node to root node
+            _root = new NodeRoot();
+            NodeSelector tree = new();
+            _root.SetChild(tree);
+
+            // Part on Chase
+            NodeSequence aware = new();
+            tree.AddChild(aware);
         
-        // FOV
-        BlackboardKey radiusKey = _blackboard.GetOrRegisterKey("Radius");
-        BlackboardKey angleKey = _blackboard.GetOrRegisterKey("Angle");
-        BlackboardKey targetMaskKey = _blackboard.GetOrRegisterKey("TargetMask");
-        BlackboardKey obstructionMaskKey = _blackboard.GetOrRegisterKey("Obstruction Mask");
-        BlackboardKey enemyKey = _blackboard.GetOrRegisterKey("Enemy");
-        
-        _blackboard.SetValue(radiusKey, _radius);
-        _blackboard.SetValue(angleKey, _angle);
-        _blackboard.SetValue(targetMaskKey, _targetMask);
-        _blackboard.SetValue(obstructionMaskKey, _obstructionMask);
-        _blackboard.SetValue(enemyKey, _enemy);
-    }
+            NodeLeaf look = new IsPlayerVisible(Blackboard, this.gameObject);
+            NodeLeaf chase = new Chase(Blackboard, this.gameObject);
+            aware.AddChild(look);
+            aware.AddChild(chase);
 
-    private void Start()
-    {
-        // Add first node to root node
-        _root = new NodeRoot();
-        NodeSelector tree = new NodeSelector();
-        _root.SetChild(tree);
+            // Part on Patrol
+            NodeLeaf patrol = new Patrol(Blackboard, this.gameObject);
+            tree.AddChild(patrol);
 
-        // Part on Chase
-        NodeSequence aware = new NodeSequence();
-        tree.AddChild(aware);
-        
-        NodeLeaf look = new IsPlayerVisible(_blackboard);
-        NodeLeaf chase = new Chase(_blackboard);
-        aware.AddChild(look);
-        aware.AddChild(chase);
+            // _root -> selector -> chase -> look
+            //                            -> chaseafter
+            //                   -> patrol
+        }
 
-        // Part on Patrol
-        NodeLeaf patrol = new Patrol(_blackboard);
-        tree.AddChild(patrol);
-
-        // _root -> selector -> a -> aa
-        //                        -> ab
-        //                   -> bb
-    }
-
-    private void Update()
-    {
-        _root.Execute();
+        private void Update()
+        {
+            _root.Execute();
+        }
     }
 }
+
+// - Architecture du BT (4 Points)
+// - Patrouille et Navigation (2 Points)
+//      Patrols from point to point ✅
+//      Take some time at the point to loiter
+//
+// - Perception Visuelle (3 Points)
+//      View Cone ✅
+//      Player Visibility Bar
+//
+// - Perception Sonore (3 Points)
+//      Enemy moves towards nearest sound
+//      Multiple sounds Alert Enemy
+//          Ignores new sounds
+//
+// - Investigation et Recherche (2 Points)
+//      Footprints Enemy follows
+//
+// - Interaction Joueur (2 Points)
+//      Chase after Player ✅
+//      Attacks player
+//
+// - Cachettes et Dissimulation (2 Point)
+//      Player can hide from the enemy
+//
+// - Apprentissage et Adaptation (2 Point)
+//      Enemy stops following sounds and footprints if too many have been found
+//      Enemy will expand his patrol speed, less loitering and more patrol points.

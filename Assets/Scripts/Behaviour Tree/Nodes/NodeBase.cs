@@ -3,7 +3,7 @@
 
 // A Node tree consists of a Root, Control Nodes and Leafs
 
-namespace Nodes
+namespace Behaviour_Tree.Nodes
 {
     /// <summary>
     /// This is the General wrapper to a Node.
