@@ -12,12 +12,10 @@ namespace Behaviour_Tree.Nodes
     public abstract class NodeControl : NodeBase
     {
         protected List<NodeBase> _childNodes;
-        public abstract override NodeReturnType Execute();
-
+    
         public void AddChild(NodeBase child)
         {
             _childNodes ??= new List<NodeBase>();
-
             _childNodes.Add(child);
         }
     }

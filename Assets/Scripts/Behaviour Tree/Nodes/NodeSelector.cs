@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Behaviour_Tree.Nodes
 {
     /// <summary>
@@ -5,19 +7,26 @@ namespace Behaviour_Tree.Nodes
     /// </summary>
     public class NodeSelector : NodeControl
     {
-        public override NodeReturnType Execute()
+        public override NodeReturnType Execute(TickContext context)
         {
-            foreach (NodeBase child in _childNodes )
+            if (_childNodes == null || _childNodes.Count == 0)
+                return NodeReturnType.Failure;
+            
+            foreach (var childStatus in _childNodes.Select(child => child.Execute(context)))
             {
-                switch (child.Execute())
+                switch (childStatus)
                 {
                     case NodeReturnType.Success:
-                        return NodeReturnType.Success;
+                        _lastStatus = NodeReturnType.Success;
+                        return _lastStatus;
                     case NodeReturnType.Running:
-                        return NodeReturnType.Running;
+                        _lastStatus = NodeReturnType.Running;
+                        return _lastStatus;
                 }
             }
-            return NodeReturnType.Failure;
+            
+            _lastStatus = NodeReturnType.Failure;
+            return _lastStatus;
         }
     }
 }

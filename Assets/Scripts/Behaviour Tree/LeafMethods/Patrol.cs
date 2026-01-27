@@ -24,25 +24,25 @@ namespace Behaviour_Tree.LeafMethods
         public Patrol(Blackboard.Blackboard blackboard, GameObject gameObject) 
             : base(blackboard, gameObject) { }
         
-        public override NodeReturnType Execute()
+        public override NodeReturnType Execute(TickContext context)
         {
             switch (_currentPhase)
             {
                 case PatrolPhase.MovingToWaypoint:
-                    return HandleMovingToWaypoint();
+                    return HandleMovingToWaypoint(context);
                     
                 case PatrolPhase.ReachedWaypoint:
-                    return HandleReachedWaypoint();
+                    return HandleReachedWaypoint(context);
                     
                 case PatrolPhase.LoiteringAtWaypoint:
-                    return HandleLoiteringAtWaypoint();
+                    return HandleLoiteringAtWaypoint(context);
                     
                 default:
                     return NodeReturnType.Failure;
             }
         }
         
-        private NodeReturnType HandleMovingToWaypoint()
+        private NodeReturnType HandleMovingToWaypoint(TickContext context)
         {
             BlackboardKey waypointsKey = _blackboard.GetOrRegisterKey("Waypoints");
             BlackboardKey lastWaypointKey = _blackboard.GetOrRegisterKey("LastWaypoint");
@@ -55,7 +55,6 @@ namespace Behaviour_Tree.LeafMethods
             }
             
             _blackboard.TryGetValue(lastWaypointKey, out Transform lastWaypoint);
-
             _blackboard.TryGetValue(movingKey, out bool isMoving);
             
             // Get next waypoint if needed
@@ -77,11 +76,11 @@ namespace Behaviour_Tree.LeafMethods
                 _currentWaypoint = lastWaypoint;
             }
             
-            // Move enemy towards waypoint
+            // ⭐ IMPORTANT CHANGE: Use context.DeltaTime instead of Time.deltaTime
             _gameObject.transform.position = Vector3.MoveTowards(
                 _gameObject.transform.position, 
                 _currentWaypoint.position, 
-                Time.deltaTime * 1f
+                context.DeltaTime * 1f  // Changed here
             );
             
             // Look at waypoint while moving
@@ -98,10 +97,11 @@ namespace Behaviour_Tree.LeafMethods
                 _currentPhase = PatrolPhase.ReachedWaypoint;
             }
             
-            return NodeReturnType.Running;
+            _lastStatus = NodeReturnType.Running;
+            return _lastStatus;
         }
         
-        private NodeReturnType HandleReachedWaypoint()
+        private NodeReturnType HandleReachedWaypoint(TickContext context)
         {
             // Now at exact waypoint position
             // Decide whether to loiter or move to next waypoint immediately
@@ -130,9 +130,10 @@ namespace Behaviour_Tree.LeafMethods
             // UnityEngine.Debug.Log($"Starting to loiter for {_loiterDuration:F2} seconds");
         }
         
-        private NodeReturnType HandleLoiteringAtWaypoint()
+        private NodeReturnType HandleLoiteringAtWaypoint(TickContext context)
         {
-            _loiterTimer += Time.deltaTime;
+            // ⭐ IMPORTANT CHANGE: Use context.DeltaTime instead of Time.deltaTime
+            _loiterTimer += context.DeltaTime;  // Changed here
             
             // Perform looking around
             PerformLookAround();
@@ -142,10 +143,12 @@ namespace Behaviour_Tree.LeafMethods
                 // Loitering complete, move to next waypoint
                 EndLoitering();
                 MoveToNextWaypoint();
-                return NodeReturnType.Running;
+                _lastStatus = NodeReturnType.Running;
+                return _lastStatus;
             }
             
-            return NodeReturnType.Running;
+            _lastStatus = NodeReturnType.Running;
+            return _lastStatus;
         }
         
         private void PerformLookAround()
@@ -153,6 +156,7 @@ namespace Behaviour_Tree.LeafMethods
             if (_gameObject == null) return;
             
             // Smooth sinusoidal looking around
+            // ⭐ Note: We're using _loiterTimer which now uses context.DeltaTime
             float t = _loiterTimer * 90f * Mathf.Deg2Rad;
             _lookAngle = Mathf.Sin(t) * 45f; // ±45 degrees
             
@@ -177,6 +181,21 @@ namespace Behaviour_Tree.LeafMethods
             
             // Go back to moving phase
             _currentPhase = PatrolPhase.MovingToWaypoint;
+        }
+        
+        // Optional: Add node lifecycle methods
+        protected override void OnStart(TickContext context)
+        {
+            base.OnStart(context);
+            // Initialize patrol state
+            _currentPhase = PatrolPhase.MovingToWaypoint;
+        }
+        
+        protected override void OnStop(TickContext context)
+        {
+            base.OnStop(context);
+            // Cleanup if needed
+            _loiterTimer = 0f;
         }
     }
 }

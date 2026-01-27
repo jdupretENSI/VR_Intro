@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Behaviour_Tree;
 using Behaviour_Tree.Blackboard;
 using Behaviour_Tree.LeafMethods;
 using Behaviour_Tree.Nodes;
@@ -20,7 +21,8 @@ namespace Controllers
         [SerializeField] private LayerMask _obstructionMask;
     
         private readonly List<Transform> _waypoints = new();
-    
+        private TickContext _currentTick;
+
         public static Blackboard Blackboard = new();
 
         private void OnEnable()
@@ -75,15 +77,20 @@ namespace Controllers
 
         private void Update()
         {
-            _root.Execute();
+            // Create new tick context each frame
+            _currentTick = new TickContext(Time.deltaTime);
+            _currentTick.FrameCount = Time.frameCount;
+            
+            // Execute tree with tick context
+            _root.Execute(_currentTick);
         }
     }
 }
 
 // - Architecture du BT (4 Points)
-// - Patrouille et Navigation (2 Points)
+// - Patrouille et Navigation (2 Points) ✅
 //      Patrols from point to point ✅
-//      Take some time at the point to loiter
+//      Take some time at the point to loiter ✅
 //
 // - Perception Visuelle (3 Points)
 //      View Cone ✅

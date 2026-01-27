@@ -6,15 +6,18 @@ namespace Behaviour_Tree.Nodes
     /// </summary>
     public class NodeRoot : NodeBase
     {
-        private NodeBase _child;  // Only one child
-    
-        public override NodeReturnType Execute()
+        private NodeBase _child;
+        
+        public override NodeReturnType Execute(TickContext context)
         {
-            // Simply delegate to child
-            return _child?.Execute() ?? NodeReturnType.Failure;
+            if (_child == null)
+                return NodeReturnType.Failure;
+            
+            // Simply delegate to child with context
+            _lastStatus = _child.Execute(context);
+            return _lastStatus;
         }
-    
-        // Special root-only methods
+        
         public void SetChild(NodeBase child) { _child = child; }
     }
 }

@@ -222,4 +222,3 @@ MonoBehaviour:
   _obstructionMask:
     serializedVersion: 2
     m_Bits: 8
-  _enemy: {fileID: 6379543831313345259}
