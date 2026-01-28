@@ -14,11 +14,14 @@ namespace Behaviour_Tree.LeafMethods
             LoiteringAtWaypoint // Looking around
         }
         
+        // Visibility decay constants (matching PlayerVisibilityBar)
+        private const float VISIBILITY_DECAY_RATE = 0.2f; // Points per second when player is not visible
+        
         private PatrolPhase _currentPhase = PatrolPhase.MovingToWaypoint;
-        private float _loiterTimer = 0f;
-        private float _loiterDuration = 0f;
+        private float _loiterTimer = 1f;
+        private float _loiterDuration = 1f;
         private Vector3 _originalLookDirection;
-        private float _lookAngle = 0f;
+        private float _lookAngle = 30f;
         private Transform _currentWaypoint;
         
         public Patrol(Blackboard.Blackboard blackboard, GameObject gameObject) 
@@ -26,36 +29,55 @@ namespace Behaviour_Tree.LeafMethods
         
         public override NodeReturnType Execute()
         {
-            switch (_currentPhase)
+            // Decrement visibility during patrol (player not visible)
+            DecrementPlayerVisibility();
+            
+            return _currentPhase switch
             {
-                case PatrolPhase.MovingToWaypoint:
-                    return HandleMovingToWaypoint();
-                    
-                case PatrolPhase.ReachedWaypoint:
-                    return HandleReachedWaypoint();
-                    
-                case PatrolPhase.LoiteringAtWaypoint:
-                    return HandleLoiteringAtWaypoint();
-                    
-                default:
-                    return NodeReturnType.Failure;
-            }
+                PatrolPhase.MovingToWaypoint => HandleMovingToWaypoint(),
+                PatrolPhase.ReachedWaypoint => HandleReachedWaypoint(),
+                PatrolPhase.LoiteringAtWaypoint => HandleLoiteringAtWaypoint(),
+                _ => NodeReturnType.Failure
+            };
         }
         
-        private NodeReturnType HandleMovingToWaypoint()
+        /// <summary>
+        /// Decrements player visibility level over time during patrol
+        /// </summary>
+        private void DecrementPlayerVisibility()
         {
-            BlackboardKey waypointsKey = _blackboard.GetOrRegisterKey("Waypoints");
-            BlackboardKey lastWaypointKey = _blackboard.GetOrRegisterKey("LastWaypoint");
-            BlackboardKey enemyKey = _blackboard.GetOrRegisterKey("Enemy");
-            BlackboardKey movingKey = _blackboard.GetOrRegisterKey("Moving");
+            BlackboardKey visibilityKey = _blackboard.GetOrRegisterKey("PlayerVisibility");
             
-            if (!_blackboard.TryGetValue(waypointsKey, out List<Transform> waypoints))
+            if (!_blackboard.TryGetValue(visibilityKey, out float currentVisibility))
             {
-                return NodeReturnType.Failure;
+                currentVisibility = 0f;
             }
             
-            _blackboard.TryGetValue(lastWaypointKey, out Transform lastWaypoint);
+            // Decrement visibility
+            currentVisibility = Mathf.Max(0f, currentVisibility - VISIBILITY_DECAY_RATE * Time.deltaTime);
+            
+            // Update blackboard
+            _blackboard.SetValue(visibilityKey, currentVisibility);
+            
+            // Update suspicion state
+            BlackboardKey isSuspiciousKey = _blackboard.GetOrRegisterKey("IsSuspicious");
+            _blackboard.SetValue(isSuspiciousKey, currentVisibility > 0.1f);
+        }
+        
+        /// <summary>
+        /// Crux of the Leaf
+        /// The enemy has a list of waypoints that he goes to from one point to the next
+        /// </summary>
+        private NodeReturnType HandleMovingToWaypoint()
+        {
+            // ... [existing HandleMovingToWaypoint code remains exactly the same] ...
+            BlackboardKey waypointsKey = _blackboard.GetOrRegisterKey("Waypoints");
+            BlackboardKey lastWaypointKey = _blackboard.GetOrRegisterKey("LastWaypoint");
+            BlackboardKey movingKey = _blackboard.GetOrRegisterKey("Moving");
 
+            if (!_blackboard.TryGetValue(waypointsKey, out List<Transform> waypoints)) return NodeReturnType.Failure;
+
+            _blackboard.TryGetValue(lastWaypointKey, out Transform lastWaypoint); 
             _blackboard.TryGetValue(movingKey, out bool isMoving);
             
             // Get next waypoint if needed
@@ -109,14 +131,14 @@ namespace Behaviour_Tree.LeafMethods
             if (Random.Range(0, 10) > 3) // 70% chance to loiter
             {
                 StartLoitering();
-                return NodeReturnType.Running;
             }
             else
             {
-                // Move immediately to next waypoint
                 MoveToNextWaypoint();
-                return NodeReturnType.Running;
             }
+
+            // Move immediately to next waypoint
+            return NodeReturnType.Success;
         }
         
         private void StartLoitering()
@@ -135,22 +157,23 @@ namespace Behaviour_Tree.LeafMethods
             _loiterTimer += Time.deltaTime;
             
             // Perform looking around
-            PerformLookAround();
+            LookAround();
+
+            if (!(_loiterTimer >= _loiterDuration)) return NodeReturnType.Running;
             
-            if (_loiterTimer >= _loiterDuration)
-            {
-                // Loitering complete, move to next waypoint
-                EndLoitering();
-                MoveToNextWaypoint();
-                return NodeReturnType.Running;
-            }
-            
+            // Loitering complete, move to next waypoint
+            EndLoitering();
+            MoveToNextWaypoint();
+
             return NodeReturnType.Running;
         }
         
-        private void PerformLookAround()
+        /// <summary>
+        /// Enemy takes a moment to look around his location
+        /// </summary>
+        private void LookAround()
         {
-            if (_gameObject == null) return;
+            if (!_gameObject) return;
             
             // Smooth sinusoidal looking around
             float t = _loiterTimer * 90f * Mathf.Deg2Rad;
@@ -163,7 +186,7 @@ namespace Behaviour_Tree.LeafMethods
         private void EndLoitering()
         {
             // Reset to original look direction
-            if (_gameObject != null && _originalLookDirection != Vector3.zero)
+            if (_gameObject && _originalLookDirection != Vector3.zero)
             {
                 _gameObject.transform.forward = _originalLookDirection;
             }

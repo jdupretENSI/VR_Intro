@@ -7,37 +7,14 @@
     <list default="true" id="f909a3d7-2066-48a0-8b3e-eacf1e8bdf25" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VR_Intro/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR_Intro/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Editor/FOVGizmo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/FOVGizmo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Blackboard/Blackboard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Blackboard/Blackboard.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Blackboard/ComputeFN1aHash.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Blackboard/ComputeFN1aHash.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Chase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Chase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/IsPlayerVisible.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/IsPlayerVisible.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Loiter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Loiter.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Patrol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Patrol.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeLeaf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeLeaf.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeReturnType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeReturnType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeRoot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeRoot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeSelector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeSelector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Nodes/NodeSequence.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controllers/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controllers/EnemyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Controllers/PlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Settings/Project Configuration/SampleScene.scenetemplate" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Project Configuration/SampleScene.scenetemplate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/AnchorVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/AnchorVisuals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/BezierCurve.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/BezierCurve.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/BooleanToggleVisualsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/BooleanToggleVisualsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/Callout.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/Callout.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/CalloutGazeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/CalloutGazeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/DestroyObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/DestroyObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/HandSubsystemManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/HandSubsystemManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/LaunchProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/LaunchProjectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/RayAttachModifier.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/RayAttachModifier.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/Rotator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/Rotator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/StepManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/StepManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/VideoPlayerRenderTexture.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/VideoPlayerRenderTexture.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/VideoTimeScrubControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/VideoTimeScrubControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/XRKnob.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/XRKnob.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/XRPokeFollowAffordanceFill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VRTemplateAssets/Scripts/XRPokeFollowAffordanceFill.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,9 +28,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59bd7c40c082431db25e1e728ab6278946ae00/f2/10674937/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/Blackboard/BlackboardManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/InvestigateSound.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Loiter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/HeardSound.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/SuspicionBar.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utils/EventBus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -74,12 +53,13 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "KISS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -122,10 +102,10 @@
       <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="39264">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="24720">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="39264" />
+      <option name="pid" value="24720" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
         <list>
@@ -152,6 +132,7 @@
       <workItem from="1768838178520" duration="80000" />
       <workItem from="1769421576958" duration="9333000" />
       <workItem from="1769503104385" duration="19277000" />
+      <workItem from="1769588682158" duration="20055000" />
     </task>
     <servers />
   </component>
@@ -184,6 +165,110 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/Patrol.cs</url>
+          <line>39</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Behaviour Tree\LeafMethods\Patrol.cs" containingFunctionPresentation="Method 'Execute'">
+            <startOffsets>
+              <option value="1504" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1526" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/HeardSound.cs</url>
+          <line>65</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Behaviour Tree\LeafMethods\HeardSound.cs" containingFunctionPresentation="Method 'Execute'">
+            <startOffsets>
+              <option value="2534" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2604" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Behaviour Tree/LeafMethods/HeardSound.cs</url>
+          <line>39</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Behaviour Tree\LeafMethods\HeardSound.cs" containingFunctionPresentation="Method 'Execute'">
+            <startOffsets>
+              <option value="1442" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1497" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Controllers/EnemyController.cs</url>
+          <line>58</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Controllers\EnemyController.cs" containingFunctionPresentation="Method 'Sound'">
+            <startOffsets>
+              <option value="2054" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2090" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Controllers/EnemyController.cs</url>
+          <line>63</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Controllers\EnemyController.cs" containingFunctionPresentation="Method 'SoundCoroutine'">
+            <startOffsets>
+              <option value="2182" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2223" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Controllers/EnemyController.cs</url>
+          <line>67</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Controllers\EnemyController.cs" containingFunctionPresentation="Method 'SoundCoroutine'">
+            <startOffsets>
+              <option value="2313" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2347" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Utils/SoundMaker.cs</url>
+          <line>13</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Utils\SoundMaker.cs" containingFunctionPresentation="Method 'OnCollisionEnter'">
+            <startOffsets>
+              <option value="394" />
+            </startOffsets>
+            <endOffsets>
+              <option value="433" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Utils/SoundMaker.cs</url>
+          <line>11</line>
+          <properties documentPath="D:\LocalDir\VR_Intro\Assets\Scripts\Utils\SoundMaker.cs" containingFunctionPresentation="Method 'OnCollisionEnter'">
+            <startOffsets>
+              <option value="285" />
+            </startOffsets>
+            <endOffsets>
+              <option value="371" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

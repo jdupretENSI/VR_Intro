@@ -14,7 +14,8 @@ namespace Behaviour_Tree.LeafMethods
             BlackboardKey angleKey = _blackboard.GetOrRegisterKey("Angle");
             BlackboardKey targetMaskKey = _blackboard.GetOrRegisterKey("TargetMask");
             BlackboardKey obstructionMaskKey = _blackboard.GetOrRegisterKey("Obstruction Mask");
-
+            BlackboardKey playerVisibleKey = _blackboard.GetOrRegisterKey("PlayerVisible");
+            
             if (!_blackboard.TryGetValue(radiusKey, out float radius) ||
                 !_blackboard.TryGetValue(angleKey, out float angle) ||
                 !_blackboard.TryGetValue(targetMaskKey, out LayerMask targetMask) ||
@@ -33,9 +34,11 @@ namespace Behaviour_Tree.LeafMethods
         
             float distanceToTarget = Vector3.Distance(_gameObject.transform.position, target.position);
 
-            return !Physics.Raycast(_gameObject.transform.position, directionToTarget, distanceToTarget, obstructionMask)
-                ? NodeReturnType.Success
-                : NodeReturnType.Failure;
+            if (Physics.Raycast(_gameObject.transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                return NodeReturnType.Failure;
+            
+            _blackboard.SetValue(playerVisibleKey, true);
+            return NodeReturnType.Success;
 
         }
     }

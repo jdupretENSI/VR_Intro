@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Behaviour_Tree.Blackboard;
 using Behaviour_Tree.LeafMethods;
@@ -12,16 +13,18 @@ namespace Controllers
 
         [Header("Visibility Cone")] 
         [SerializeField]
-        public float _radius;
+        public float Radius;
         [Range(0, 360)]
         [SerializeField]
-        public float _angle;
+        public float Angle;
         [SerializeField] private LayerMask _targetMask;
         [SerializeField] private LayerMask _obstructionMask;
     
         private readonly List<Transform> _waypoints = new();
     
         public static Blackboard Blackboard = new();
+
+        private BlackboardKey _soundEventKey = Blackboard.GetOrRegisterKey("LastSoundEvent");
 
         private void OnEnable()
         {
@@ -42,10 +45,27 @@ namespace Controllers
             BlackboardKey targetMaskKey = Blackboard.GetOrRegisterKey("TargetMask");
             BlackboardKey obstructionMaskKey = Blackboard.GetOrRegisterKey("Obstruction Mask");
         
-            Blackboard.SetValue(radiusKey, _radius);
-            Blackboard.SetValue(angleKey, _angle);
+            Blackboard.SetValue(radiusKey, Radius);
+            Blackboard.SetValue(angleKey, Angle);
             Blackboard.SetValue(targetMaskKey, _targetMask);
             Blackboard.SetValue(obstructionMaskKey, _obstructionMask);
+            
+            // Sounds
+            EventBus.Sound += Sound;
+        }
+
+        private void Sound(Transform obj)
+        {
+            StartCoroutine(SoundCoroutine(obj));
+        }
+
+        private IEnumerator SoundCoroutine(Transform obj)
+        {
+            Blackboard.SetValue(_soundEventKey, obj);
+            
+            yield return new WaitForSeconds(0.5f);
+            
+            Blackboard.Remove(_soundEventKey);
         }
 
         private void Start()
@@ -60,9 +80,18 @@ namespace Controllers
             tree.AddChild(aware);
         
             NodeLeaf look = new IsPlayerVisible(Blackboard, this.gameObject);
+            NodeLeaf inspect = new PlayerVisibilityBar(Blackboard, this.gameObject);
             NodeLeaf chase = new Chase(Blackboard, this.gameObject);
             aware.AddChild(look);
+            aware.AddChild(inspect);
             aware.AddChild(chase);
+            
+            // Hearing and Investigating Sounds
+            NodeSequence investigateSound = new();
+            tree.AddChild(investigateSound);
+
+            NodeLeaf heard = new HeardSound(Blackboard, this.gameObject);
+            investigateSound.AddChild(heard);
 
             // Part on Patrol
             NodeLeaf patrol = new Patrol(Blackboard, this.gameObject);
@@ -83,11 +112,12 @@ namespace Controllers
 // - Architecture du BT (4 Points)
 // - Patrouille et Navigation (2 Points)
 //      Patrols from point to point ✅
-//      Take some time at the point to loiter
+//      Take some time at the point to loiter ✅
 //
 // - Perception Visuelle (3 Points)
 //      View Cone ✅
-//      Player Visibility Bar
+//      Player Visibility Bar ✅
+//      Go to last point seen
 //
 // - Perception Sonore (3 Points)
 //      Enemy moves towards nearest sound
