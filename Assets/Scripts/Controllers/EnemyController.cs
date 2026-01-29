@@ -10,6 +10,11 @@ namespace Controllers
     public class EnemyController : MonoBehaviour
     {
         private NodeRoot _root;
+        
+        [Header("Tick Speed")]
+        [Range(0f, 100f)]
+        [SerializeField] private float _tickSpeed;
+        private float _tickTimer;
 
         [Header("Visibility Cone")] 
         [SerializeField]
@@ -28,7 +33,7 @@ namespace Controllers
 
         private void OnEnable()
         {
-            // Patrol
+          // Patrol
             BlackboardKey movementKey =  Blackboard.GetOrRegisterKey("Moving");
             Blackboard.SetValue(movementKey, false);
 
@@ -63,7 +68,7 @@ namespace Controllers
         {
             Blackboard.SetValue(_soundEventKey, obj);
             
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(10f);
             
             Blackboard.Remove(_soundEventKey);
         }
@@ -82,17 +87,41 @@ namespace Controllers
             NodeLeaf look = new IsPlayerVisible(Blackboard, this.gameObject);
             NodeLeaf inspect = new PlayerVisibilityBar(Blackboard, this.gameObject);
             NodeLeaf chase = new Chase(Blackboard, this.gameObject);
+            NodeLeaf attack = new AttackPlayer(Blackboard, this.gameObject);
             aware.AddChild(look);
             aware.AddChild(inspect);
             aware.AddChild(chase);
+            aware.AddChild(attack);
             
             // Hearing and Investigating Sounds
             NodeSequence investigateSound = new();
             tree.AddChild(investigateSound);
 
             NodeLeaf heard = new HeardSound(Blackboard, this.gameObject);
+            NodeLeaf investigate = new TravelToSound(Blackboard, this.gameObject);
+            NodeLeaf lookAround = new SearchArea(Blackboard, this.gameObject);
             investigateSound.AddChild(heard);
-
+            investigateSound.AddChild(investigate);
+            investigateSound.AddChild(lookAround);
+            
+            // Part on Footprint Investigation (medium priority)
+            NodeSequence investigateSequence = new();
+            tree.AddChild(investigateSequence);
+    
+            NodeLeaf checkFootprints = new CanSeeFootprint(Blackboard, this.gameObject);
+            NodeLeaf pickFootprint = new PickFootprint(Blackboard, this.gameObject);
+            NodeLeaf moveToFootprint = new MoveToFootprint(Blackboard, this.gameObject);
+            NodeLeaf searchAround = new LookAround(Blackboard, this.gameObject);
+            NodeLeaf determineDirection = new DetermineTrailDirection(Blackboard, this.gameObject);
+            NodeLeaf followTrail = new FollowTrail(Blackboard, this.gameObject);
+    
+            investigateSequence.AddChild(checkFootprints);
+            investigateSequence.AddChild(pickFootprint);
+            investigateSequence.AddChild(moveToFootprint);
+            investigateSequence.AddChild(searchAround);
+            investigateSequence.AddChild(determineDirection);
+            investigateSequence.AddChild(followTrail);
+            
             // Part on Patrol
             NodeLeaf patrol = new Patrol(Blackboard, this.gameObject);
             tree.AddChild(patrol);
@@ -104,13 +133,26 @@ namespace Controllers
 
         private void Update()
         {
+            // Simple tick timer
+            _tickTimer += Time.deltaTime;
+            
+            // Calculate time between ticks
+            float timeBetweenTicks = 1f / _tickSpeed;
+            
+            // Execute tree on tick
+            if (!(_tickTimer >= timeBetweenTicks)) return;
+            
             _root.Execute();
+            _tickTimer = 0f;
         }
     }
 }
 
 // - Architecture du BT (4 Points)
-// - Patrouille et Navigation (2 Points)
+//      Node tree ✅
+//      Blackboard ✅
+//      Ticks ✅
+// - Patrouille et Navigation (2 Points) ✅
 //      Patrols from point to point ✅
 //      Take some time at the point to loiter ✅
 //
@@ -120,19 +162,19 @@ namespace Controllers
 //      Go to last point seen
 //
 // - Perception Sonore (3 Points)
-//      Enemy moves towards nearest sound
+//      Enemy moves towards sounds based on distance and obstructions ✅
 //      Multiple sounds Alert Enemy
 //          Ignores new sounds
 //
 // - Investigation et Recherche (2 Points)
-//      Footprints Enemy follows
+//      Footprints Enemy follows ✅
 //
 // - Interaction Joueur (2 Points)
 //      Chase after Player ✅
-//      Attacks player
+//      Attacks player ✅
 //
 // - Cachettes et Dissimulation (2 Point)
-//      Player can hide from the enemy
+//      Player can hide from the enemy in a closet
 //
 // - Apprentissage et Adaptation (2 Point)
 //      Enemy stops following sounds and footprints if too many have been found
